@@ -11,5 +11,12 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    // SPA mode: prerender a single static shell (index.html) that hydrates the
+    // client-side router. Produces a fully static bundle in .output/public,
+    // which is what Capacitor needs to package the app for Android.
+    spa: {
+      enabled: true,
+      maskPath: "/",
+    },
   },
 });
