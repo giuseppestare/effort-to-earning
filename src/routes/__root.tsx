@@ -78,12 +78,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ore Lavoro — Calcolo ore e retribuzione" },
-      { name: "description", content: "Calcola ore ordinarie, straordinari, notte, festivi e il lordo mensile." },
-      { property: "og:title", content: "Ore Lavoro" },
-      { property: "og:description", content: "Calcola ore ordinarie, straordinari, notte, festivi e il lordo mensile." },
+      { title: "Calendario paghe" },
+      { name: "description", content: "Calcola ore ordinarie, straordinari, notte, festivi e il lordo mensile.\nSalvataggio nel calendario per creare il lordo annuale" },
+      { property: "og:title", content: "Calendario paghe" },
+      { property: "og:description", content: "Calcola ore ordinarie, straordinari, notte, festivi e il lordo mensile.\nSalvataggio nel calendario per creare il lordo annuale" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Calendario paghe" },
+      { name: "twitter:description", content: "Calcola ore ordinarie, straordinari, notte, festivi e il lordo mensile.\nSalvataggio nel calendario per creare il lordo annuale" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/bad89bba-38e3-4fbc-b18e-c42183732d00" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/bad89bba-38e3-4fbc-b18e-c42183732d00" },
     ],
     links: [
       {
