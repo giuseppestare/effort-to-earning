@@ -7,6 +7,8 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Capacitor target: no server runtime — produce a purely static SPA bundle.
+  nitro: false,
   tanstackStart: {
     // SPA mode: prerender a single static shell (index.html) that hydrates the
     // client-side router. Produces a fully static bundle in .output/public,
