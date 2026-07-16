@@ -103,7 +103,20 @@ export function computePay(input: {
 
 export function parseNum(v: string): number {
   if (!v) return 0;
-  const n = parseFloat(v.replace(/\./g, "").replace(",", "."));
+  const s = v.trim();
+  const hasComma = s.includes(",");
+  const hasDot = s.includes(".");
+  let normalized: string;
+  if (hasComma && hasDot) {
+    // Italian style: dots are thousand separators, comma is decimal.
+    normalized = s.replace(/\./g, "").replace(",", ".");
+  } else if (hasComma) {
+    normalized = s.replace(",", ".");
+  } else {
+    // Only dot(s) or none — treat dot as decimal separator.
+    normalized = s;
+  }
+  const n = parseFloat(normalized);
   return isFinite(n) ? n : 0;
 }
 export function fmtNum(n: number, digits = 2): string {
