@@ -16,6 +16,11 @@ export default defineConfig({
     spa: {
       enabled: true,
       maskPath: "/",
+      // Emit the prerendered shell as index.html so Capacitor's WebView can
+      // load the app directly from the packaged assets.
+      prerender: {
+        outputPath: "/index",
+      },
     },
   },
 });
