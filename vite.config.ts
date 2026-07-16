@@ -7,9 +7,20 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Capacitor target: no server runtime — produce a purely static SPA bundle.
+  nitro: false,
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+    // SPA mode: prerender a single static shell (index.html) that hydrates the
+    // client-side router. Produces a fully static bundle in .output/public,
+    // which is what Capacitor needs to package the app for Android.
+    spa: {
+      enabled: true,
+      maskPath: "/",
+      // Emit the prerendered shell as index.html so Capacitor's WebView can
+      // load the app directly from the packaged assets.
+      prerender: {
+        outputPath: "/index",
+      },
+    },
   },
 });
