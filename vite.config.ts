@@ -10,17 +10,31 @@ export default defineConfig({
   // Capacitor target: no server runtime — produce a purely static SPA bundle.
   nitro: false,
   tanstackStart: {
-    // SPA mode: prerender a single static shell (index.html) that hydrates the
-    // client-side router. Produces a fully static bundle in .output/public,
-    // which is what Capacitor needs to package the app for Android.
+    // SPA mode: emit a static index.html shell (no per-route prerender crawl).
+    // Capacitor's Android WebView serves this shell from webDir and the
+    // TanStack Router hydrates client-side. Setting spa.prerender.outputPath
+    // to "/" produces `index.html` at the root of the client output rather
+    // than a nested `/index/index.html`, which is what Capacitor expects.
     spa: {
       enabled: true,
       maskPath: "/",
-      // Emit the prerendered shell as index.html so Capacitor's WebView can
-      // load the app directly from the packaged assets.
       prerender: {
         outputPath: "/index",
+        // Do NOT crawl app routes: SPA shell only, single page. This avoids
+        // the long "Crawling: /..." pass that hangs on Termux.
+        crawlLinks: false,
       },
+    },
+    // Kill the global prerender pass — no route is prerendered at build time.
+    prerender: { enabled: false },
+    pages: [],
+  },
+  vite: {
+    build: {
+      // Flat output at dist/client so Capacitor (webDir: "dist/client") finds
+      // index.html + assets/ at the WebView root.
+      outDir: "dist/client",
+      emptyOutDir: true,
     },
   },
 });
