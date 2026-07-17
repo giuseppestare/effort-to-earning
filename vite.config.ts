@@ -23,6 +23,8 @@ export default defineConfig({
         // Do NOT crawl app routes: SPA shell only, single page. This avoids
         // the long "Crawling: /..." pass that hangs on Termux.
         crawlLinks: false,
+        // Disable concurrency to prevent hangs on resource-constrained systems
+        concurrency: 1,
       },
     },
     // Kill the global prerender pass — no route is prerendered at build time.
