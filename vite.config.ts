@@ -19,13 +19,21 @@ export default defineConfig({
       enabled: true,
       maskPath: "/",
       prerender: {
-        enabled: false,  // Disable prerender completely on resource-constrained systems
         outputPath: "/index",
+        // Do NOT crawl app routes: SPA shell only, single page. This avoids
+        // the long "Crawling: /..." pass that hangs on Termux.
         crawlLinks: false,
+        // Set very low concurrency for Termux
+        concurrency: 1,
+        // Short timeout for prerender
+        timeout: 5000,
       },
     },
     // Kill the global prerender pass — no route is prerendered at build time.
-    prerender: { enabled: false },
+    prerender: { 
+      enabled: false,
+      timeout: 5000,
+    },
     pages: [],
   },
   vite: {
