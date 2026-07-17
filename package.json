@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "VITE_SKIP_PRERENDER=true vite build",
+    "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "build:mobile": "VITE_SKIP_PRERENDER=true vite build",
-    "cap:sync": "VITE_SKIP_PRERENDER=true vite build && cap sync android",
+    "build:mobile": "vite build",
+    "build:termux": "vite build --mode mobile",
+    "cap:sync": "vite build && cap sync android",
     "cap:add:android": "cap add android",
     "cap:open:android": "cap open android"
   },
