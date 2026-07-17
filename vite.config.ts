@@ -19,7 +19,7 @@ export default defineConfig({
       enabled: true,
       maskPath: "/",
       prerender: {
-        outputPath: "/",
+        outputPath: "/index",
         // Do NOT crawl app routes: SPA shell only, single page. This avoids
         // the long "Crawling: /..." pass that hangs on Termux.
         crawlLinks: false,
