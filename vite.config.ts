@@ -6,26 +6,6 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-const skipPrerender = process.env.VITE_SKIP_PRERENDER === 'true';
-
-// Custom plugin to disable prerender on Termux/resource-constrained systems
-const disablePrerenderPlugin = {
-  name: 'disable-prerender',
-  apply: 'build',
-  enforce: 'pre',
-  configResolved(config) {
-    if (skipPrerender && config.build?.ssr === false) {
-      // Hook into the tanstack config to disable prerender
-      if (config.tanstackStart?.prerender) {
-        config.tanstackStart.prerender.enabled = false;
-      }
-      if (config.tanstackStart?.spa?.prerender) {
-        config.tanstackStart.spa.prerender.enabled = false;
-      }
-    }
-  },
-};
-
 export default defineConfig({
   // Capacitor target: no server runtime — produce a purely static SPA bundle.
   nitro: false,
@@ -39,30 +19,27 @@ export default defineConfig({
       enabled: true,
       maskPath: "/",
       prerender: {
-        enabled: skipPrerender ? false : undefined,
+        enabled: false,
         outputPath: "/index",
-        // Do NOT crawl app routes: SPA shell only, single page. This avoids
-        // the long "Crawling: /..." pass that hangs on Termux.
         crawlLinks: false,
-        // Set very low concurrency for Termux
         concurrency: 1,
-        // Short timeout for prerender
         timeout: 5000,
       },
     },
     // Kill the global prerender pass — no route is prerendered at build time.
-    prerender: { 
-      enabled: skipPrerender ? false : false,
-    },
+    prerender: { enabled: false },
     pages: [],
   },
   vite: {
-    plugins: skipPrerender ? [disablePrerenderPlugin] : [],
+    // Relative asset URLs are required when Android WebView serves files from
+    // the Capacitor app bundle instead of a web server origin.
+    base: "./",
     build: {
       // Flat output at dist/client so Capacitor (webDir: "dist/client") finds
       // index.html + assets/ at the WebView root.
       outDir: "dist/client",
       emptyOutDir: true,
+      sourcemap: false,
     },
   },
 });
