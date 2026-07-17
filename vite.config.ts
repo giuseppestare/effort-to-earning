@@ -26,8 +26,17 @@ export default defineConfig({
         timeout: 5000,
       },
     },
-    // Kill the global prerender pass — no route is prerendered at build time.
-    prerender: { enabled: false },
+    // Termux / low-memory Android environments: TanStack Start still renders
+    // one SPA shell when `spa.enabled` is true, but this disables route
+    // discovery/crawling and keeps the shell render strictly single-threaded.
+    prerender: {
+      enabled: false,
+      concurrency: 1,
+      crawlLinks: false,
+      retryCount: 0,
+      autoStaticPathsDiscovery: false,
+      failOnError: false,
+    },
     pages: [],
   },
   vite: {
