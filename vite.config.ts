@@ -6,6 +6,8 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+const skipPrerender = process.env.VITE_SKIP_PRERENDER === 'true';
+
 export default defineConfig({
   // Capacitor target: no server runtime — produce a purely static SPA bundle.
   nitro: false,
@@ -18,7 +20,9 @@ export default defineConfig({
     spa: {
       enabled: true,
       maskPath: "/",
-      prerender: {
+      prerender: skipPrerender ? {
+        enabled: false,
+      } : {
         outputPath: "/index",
         // Do NOT crawl app routes: SPA shell only, single page. This avoids
         // the long "Crawling: /..." pass that hangs on Termux.
@@ -31,8 +35,7 @@ export default defineConfig({
     },
     // Kill the global prerender pass — no route is prerendered at build time.
     prerender: { 
-      enabled: false,
-      timeout: 5000,
+      enabled: skipPrerender ? false : false,
     },
     pages: [],
   },
